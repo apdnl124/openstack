@@ -1,0 +1,101 @@
+# Octavia 설정 파일 템플릿
+# /etc/octavia/octavia.conf
+
+[DEFAULT]
+debug = True
+log_dir = /var/log/octavia
+transport_url = rabbit://guest:guest@CONTROLLER_IP:5672/
+
+[api_settings]
+bind_host = CONTROLLER_IP
+bind_port = 9876
+auth_strategy = keystone
+api_handler = queue_producer
+
+[database]
+connection = mysql+pymysql://octavia:OCTAVIA_DB_PASSWORD@CONTROLLER_IP/octavia
+
+[health_manager]
+bind_ip = CONTROLLER_IP
+bind_port = 5555
+controller_ip_port_list = CONTROLLER_IP:5555
+heartbeat_key = insecure
+heartbeat_interval = 10
+health_check_interval = 3
+sock_rlimit = 0
+
+[keystone_authtoken]
+www_authenticate_uri = http://CONTROLLER_IP:5000
+auth_url = http://CONTROLLER_IP:5000
+memcached_servers = CONTROLLER_IP:11211
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = octavia
+password = OCTAVIA_PASSWORD
+
+[certificates]
+ca_certificate = /etc/octavia/certs/ca_01.pem
+ca_private_key = /etc/octavia/certs/ca_key.pem
+ca_private_key_passphrase = foobar
+
+[haproxy_amphora]
+client_cert = /etc/octavia/certs/client-.pem
+client_cert_key = /etc/octavia/certs/client_key.pem
+server_ca = /etc/octavia/certs/ca_01.pem
+use_upstart = False
+
+[controller_worker]
+amp_image_tag = amphora
+amp_ssh_key_name = openstack-key
+amp_secgroup_list = lb-mgmt-sec-grp
+amp_flavor_id = 200
+amp_boot_network_list = LB_MGMT_NET_ID
+network_driver = allowed_address_pairs_driver
+compute_driver = compute_nova_driver
+amphora_driver = amphora_haproxy_rest_driver
+client_ca = /etc/octavia/certs/ca_01.pem
+loadbalancer_topology = SINGLE
+
+[task_flow]
+engine = parallel
+max_workers = 5
+
+[oslo_messaging]
+topic = octavia_prov
+
+[oslo_messaging_notifications]
+driver = messagingv2
+
+[house_keeping]
+load_balancer_expiry_age = 604800
+amphora_expiry_age = 604800
+spare_check_interval = 30
+spare_amphora_pool_size = 0
+
+[amphora_agent]
+agent_server_ca = /etc/octavia/certs/ca_01.pem
+agent_server_cert = /etc/octavia/certs/client-.pem
+agent_server_network_dir = /etc/netns/amphora-haproxy/network/interfaces.d/
+agent_request_read_timeout = 120
+
+[glance_client]
+region_name = RegionOne
+endpoint_type = publicURL
+
+[neutron_client]
+region_name = RegionOne
+endpoint_type = publicURL
+
+[nova_client]
+region_name = RegionOne
+endpoint_type = publicURL
+
+[cinder_client]
+region_name = RegionOne
+endpoint_type = publicURL
+
+[barbican_client]
+region_name = RegionOne
+endpoint_type = publicURL

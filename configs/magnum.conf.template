@@ -1,0 +1,92 @@
+# Magnum 설정 파일 템플릿
+# /etc/magnum/magnum.conf
+
+[DEFAULT]
+debug = True
+log_dir = /var/log/magnum
+transport_url = rabbit://guest:guest@CONTROLLER_IP:5672/
+
+[api]
+host = CONTROLLER_IP
+port = 9511
+
+[database]
+connection = mysql+pymysql://magnum:MAGNUM_DB_PASSWORD@CONTROLLER_IP/magnum
+
+[keystone_authtoken]
+www_authenticate_uri = http://CONTROLLER_IP:5000
+auth_url = http://CONTROLLER_IP:5000
+memcached_servers = CONTROLLER_IP:11211
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = magnum
+password = MAGNUM_PASSWORD
+
+[trust]
+trustee_domain_admin_id = magnum
+trustee_domain_admin_password = MAGNUM_PASSWORD
+
+[cinder_client]
+region_name = RegionOne
+
+[barbican_client]
+region_name = RegionOne
+
+[glance_client]
+region_name = RegionOne
+
+[heat_client]
+region_name = RegionOne
+
+[magnum_client]
+region_name = RegionOne
+
+[neutron_client]
+region_name = RegionOne
+
+[nova_client]
+region_name = RegionOne
+
+[octavia_client]
+region_name = RegionOne
+
+[oslo_concurrency]
+lock_path = /var/lib/magnum/tmp
+
+[oslo_messaging_notifications]
+driver = messagingv2
+
+[oslo_messaging_rabbit]
+rabbit_userid = guest
+rabbit_password = guest
+rabbit_hosts = CONTROLLER_IP:5672
+
+[oslo_policy]
+policy_file = /etc/magnum/policy.yaml
+
+[certificates]
+cert_manager_type = local
+
+[cluster]
+cluster_heat_template = /usr/lib/python3.9/site-packages/magnum/drivers/heat/template_def.py
+
+[cluster_template]
+kubernetes_allowed_network_drivers = flannel,calico
+kubernetes_default_network_driver = flannel
+swarm_allowed_network_drivers = docker,flannel
+swarm_default_network_driver = flannel
+
+[docker_registry]
+swift_region = RegionOne
+
+[drivers]
+openstack_ca_file = 
+verify_ca = True
+
+[magnum_client]
+endpoint_type = publicURL
+
+[trust]
+cluster_user_trust = True

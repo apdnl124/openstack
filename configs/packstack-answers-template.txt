@@ -1,0 +1,92 @@
+# Packstack 응답 파일 템플릿
+# OpenStack Zed 버전용 CentOS 9 환경
+
+# 일반 설정
+CONFIG_DEFAULT_PASSWORD=openstack123
+CONFIG_KEYSTONE_ADMIN_PW=admin123
+
+# 컴퓨트 노드 설정 (단일 노드 설치)
+CONFIG_COMPUTE_HOSTS=192.168.1.10
+
+# 네트워크 설정
+CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan
+CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan
+CONFIG_NEUTRON_ML2_MECHANISM_DRIVERS=openvswitch
+CONFIG_NEUTRON_OVS_BRIDGE_MAPPINGS=extnet:br-ex
+CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:enp0s8
+
+# Horizon 설정
+CONFIG_HORIZON_SSL=n
+
+# 서비스 활성화/비활성화
+CONFIG_CINDER_INSTALL=y
+CONFIG_SWIFT_INSTALL=n
+CONFIG_HEAT_INSTALL=y
+CONFIG_MAGNUM_INSTALL=n  # 나중에 수동 설치
+CONFIG_OCTAVIA_INSTALL=n  # 나중에 수동 설치
+
+# 데모 프로젝트 생성
+CONFIG_PROVISION_DEMO=y
+
+# Telemetry 서비스
+CONFIG_CEILOMETER_INSTALL=y
+CONFIG_AODH_INSTALL=y
+
+# SSL 설정
+CONFIG_SSL_CERT_DIR=~/packstack-certs
+CONFIG_SSL_CACERT_FILE=~/packstack-certs/certs/ca.crt
+CONFIG_SSL_CACERT_KEY_FILE=~/packstack-certs/private/ca.key
+CONFIG_SSL_CERT_FILE=~/packstack-certs/certs/ssl_cert
+CONFIG_SSL_KEY_FILE=~/packstack-certs/private/ssl_key
+
+# MariaDB 설정
+CONFIG_MARIADB_INSTALL=y
+CONFIG_MARIADB_PW=mysql_pass
+
+# 로그 설정
+CONFIG_DEBUG_MODE=y
+CONFIG_VERBOSE_MODE=y
+
+# 네트워크 노드 설정
+CONFIG_NETWORK_HOSTS=192.168.1.10
+
+# 스토리지 설정
+CONFIG_STORAGE_HOST=192.168.1.10
+
+# 컨트롤러 노드 설정
+CONFIG_CONTROLLER_HOST=192.168.1.10
+
+# Keystone 설정
+CONFIG_KEYSTONE_DB_PW=keystone_pass
+CONFIG_KEYSTONE_REGION=RegionOne
+
+# Glance 설정
+CONFIG_GLANCE_DB_PW=glance_pass
+CONFIG_GLANCE_KS_PW=glance_pass
+
+# Nova 설정
+CONFIG_NOVA_DB_PW=nova_pass
+CONFIG_NOVA_KS_PW=nova_pass
+CONFIG_NOVA_MANAGE_FLAVORS=y
+
+# Neutron 설정
+CONFIG_NEUTRON_DB_PW=neutron_pass
+CONFIG_NEUTRON_KS_PW=neutron_pass
+CONFIG_NEUTRON_METADATA_PW=neutron_metadata_pass
+
+# Cinder 설정
+CONFIG_CINDER_DB_PW=cinder_pass
+CONFIG_CINDER_KS_PW=cinder_pass
+
+# Heat 설정
+CONFIG_HEAT_DB_PW=heat_pass
+CONFIG_HEAT_KS_PW=heat_pass
+CONFIG_HEAT_AUTH_ENCRYPT_KEY=heat_auth_key
+
+# Ceilometer 설정
+CONFIG_CEILOMETER_KS_PW=ceilometer_pass
+CONFIG_CEILOMETER_SECRET=ceilometer_secret
+
+# AODH 설정
+CONFIG_AODH_DB_PW=aodh_pass
+CONFIG_AODH_KS_PW=aodh_pass
